@@ -1,5 +1,11 @@
 import { Suspense } from "react";
 
+type Review = {
+    rating: number;
+    comment: string;
+    reviewerName: string;
+};
+
 export default async function ProductPage ({ params }: { params: { id: string } }){
     const res = await fetch(`http://localhost:3000/api/products/${params.id}`, {
         next: {
@@ -17,11 +23,13 @@ export default async function ProductPage ({ params }: { params: { id: string } 
                 {watchData.title}
             </h1>
             <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                                <Suspense fallback={<div className="animate-pulse bg-gray-700 h-48 rounded-lg"></div>}>
+
             {watchData.images.map((imageUrl: string, index: number) => (
-                <Suspense key={index} fallback={<div className="animate-pulse bg-gray-700 h-48 rounded-lg"></div>}>
                         <img key={index} src={imageUrl} alt={watchData.title} className=" object-cover max-h-[20rem] mb-4 rounded-lg" />
-                </Suspense>
             ))}
+                            </Suspense>
+
 
             </div>
             <p className="text-lg mb-4">{watchData.description}</p>
@@ -47,7 +55,7 @@ export default async function ProductPage ({ params }: { params: { id: string } 
                 <h2 className="text-xl font-semibold mb-4">Customer Reviews                            <span className="text-yellow-700">{'★' + watchData.rating}</span>
 </h2>
                 {watchData.reviews.length > 0 ? (
-                    watchData.reviews.map((review: any, index: number) => (
+                    watchData.reviews.map((review: Review, index: number) => (
                         <div key={index} className="mb-4 p-4 bg-neutral-800 rounded-lg">
                             <p className="text-gray-300 mb-2">{review.comment}</p>
                             <span className="text-yellow-700">{'★'.repeat(review.rating)}</span>

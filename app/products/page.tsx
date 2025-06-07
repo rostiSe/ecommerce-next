@@ -1,3 +1,4 @@
+import { Product } from "@/lib/types";
 import ProductCard from "./components/ProductCard";
 
 export default async function ProductsPage() {
@@ -11,7 +12,7 @@ export default async function ProductsPage() {
         <p className="mb-4">This page is currently under construction.</p>
         <p className="mb-4">Please check back later for updates.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {watches.products.map((watch: any) => (
+            {watches.products.map((watch: Product) => (
                 <ProductCard id={watch.id} key={watch.id} product={watch} />
                     ))}
 
