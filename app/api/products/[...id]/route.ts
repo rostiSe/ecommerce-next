@@ -1,6 +1,6 @@
 import config from "@/lib/config";
 
-export async function GET(_request: Request, { params }: { params: { id: string[] } }) {
+export async function GET(_request: Request, { params }: { params: { id: string } }) {
     const id = parseInt(params.id[0]);
     try {
         const res = await fetch(`${config.mockWatchesApiById(id)}`);
