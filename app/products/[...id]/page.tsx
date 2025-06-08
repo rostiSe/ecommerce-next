@@ -9,7 +9,7 @@ type Review = {
 export default async function ProductPage ({ params }: { params: { id: string } }){
     const res = await fetch(`http://localhost:3000/api/products/${params.id}`, {
         next: {
-            revalidate: 120, // Cache for 120 seconds
+            revalidate: 3600, // Cache for 120 seconds
             tags: ['Watches']
         }
     });

@@ -12,6 +12,8 @@ export default function ProductCard({ product, id }: { product: Product, id: num
       <Image
         src={product.thumbnail}
         alt={product.title}
+        width={500}
+        height={300}
         className="w-full h-48 object-cover rounded-t-lg group-hover:translate-x-5 group-hover:-translate-y-10 transition-transform ease-in-out duration-500"
       />
       <h3 className="text-lg  text-teal-600 font-semibold mt-2">{product.title}</h3>
