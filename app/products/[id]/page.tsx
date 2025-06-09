@@ -1,33 +1,35 @@
-import config from "@/lib/config";
-import Image from "next/image";
-import { Suspense } from "react";
+// app/products/[id]/page.tsx
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'default-cache'
 
+import config from '@/lib/config'
+import Image from 'next/image'
+import { Suspense } from 'react'
 type Review = {
     rating: number;
     comment: string;
     reviewerName: string;
 };
-
-export default async function ProductPage (
+export default async function ProductPage(
   { params }: { params: Promise<{ id: string }> }
 ) {
-  
-    const { id } = await params;
+  const { id } = await params
 
-    const res = await fetch(`${config.mockWatchesApi}/${id}`, {
+  const res = await fetch(`${config.mockWatchesApi}/${id}`, {
     next: { revalidate: 3600, tags: ['Watches'] }
-  });
-  if (!res.ok) throw new Error('Failed to fetch product details');
-  const watchData = await res.json();
+  })
+  if (!res.ok) {
+    const text = await res.text()
+    console.error(`📦 Product API error ${res.status}: ${text}`)
+    throw new Error(`Could not load product ${id}`)
+  }
+  const watchData = await res.json()
 
-    return(
-        <div>
-            <h1 className="text-2xl font-bold mb-4">
-                {watchData.title}
-            </h1>
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                                <Suspense fallback={
-          // gleiche Breite/Höhe wie deine Images, sorgt für stabilen Platzhalter
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">{watchData.title}</h1>
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <Suspense fallback={
           <div className="animate-pulse bg-gray-700 w-full aspect-[4/3] rounded-lg" />
         }>
           {watchData.images.map((src: string, i: number) => (
@@ -35,19 +37,17 @@ export default async function ProductPage (
               key={i}
               src={src}
               alt={watchData.title}
-              width={400}               // feste Dimensionen
+              width={400}
               height={300}
-              placeholder="blur"         // optional: Blurlowres
-              blurDataURL="/blur.png"    // kannst du generisch vorladen
-              priority={i < 2}           // preload die ersten beiden
+              placeholder="blur"
+              blurDataURL="/blur.png"
+              priority={i < 2}
               className="object-cover rounded-lg"
             />
           ))}
         </Suspense>
-
-
-            </div>
-            <p className="text-lg mb-4">{watchData.description}</p>
+      </div>
+ <p className="text-lg mb-4">{watchData.description}</p>
             <div className="flex justify-between items-center mb-4">
                 <span className="text-xl font-bold text-amber-600">
                     {watchData.price.toLocaleString("DE")}€
@@ -80,7 +80,8 @@ export default async function ProductPage (
                 ) : (
                     <p className="text-gray-400">No reviews yet.</p>
                 )}
-                </div>
-        </div>
-    )
+                </div>   
+                 </div>
+                
+  )
 }
