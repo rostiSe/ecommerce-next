@@ -1,3 +1,4 @@
+import config from "@/lib/config";
 import Image from "next/image";
 import { Suspense } from "react";
 
@@ -13,7 +14,7 @@ export default async function ProductPage (
   
     const { id } = await params;
 
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const res = await fetch(`${config.mockWatchesApi}/${id}`, {
     next: { revalidate: 3600, tags: ['Watches'] }
   });
   if (!res.ok) throw new Error('Failed to fetch product details');
