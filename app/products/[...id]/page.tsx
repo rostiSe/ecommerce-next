@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { NextRequest } from "next/server";
 import { Suspense } from "react";
 
 type Review = {
