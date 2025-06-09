@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { NextRequest } from "next/server";
 import { Suspense } from "react";
 
 type Review = {
@@ -7,7 +8,9 @@ type Review = {
     reviewerName: string;
 };
 
-export default async function ProductPage ({ params }: { params: { id: string } }) {
+export default async function ProductPage (
+  { params }: { params: Promise<{ id: string }> }
+) {
   
     const { id } = await params;
 
