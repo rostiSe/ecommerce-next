@@ -2,8 +2,8 @@
 import { NextResponse } from "next/server";
 import config from "@/lib/config";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
+export async function GET({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   try {
     const res = await fetch(config.mockWatchesApiById(id));
