@@ -1,8 +1,9 @@
 import { Product } from "@/lib/types";
-import ProductCard from "./components/ProductCard";
+import ProductCard from "./(components)/ProductCard";
+import config from "@/lib/config";
 
 export default async function ProductsPage() {
-    const data = await fetch('http://localhost:3000/api/products')
+    const data = await fetch(`${config.mockWatchesApi}`)
     const watches = await data.json();
   return (
     <div>
