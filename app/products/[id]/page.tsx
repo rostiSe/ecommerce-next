@@ -15,7 +15,7 @@ export default async function ProductPage(
 ) {
   const { id } = await params
 
-  const res = await fetch(`${config.mockWatchesApi}/${id}`, {
+  const res = await fetch(config.mockWatchesApiById(id), {
     next: { revalidate: 3600, tags: ['Watches'] }
   })
   if (!res.ok) {
